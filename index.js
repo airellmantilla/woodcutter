@@ -34,11 +34,11 @@ function main(){
     console.log("Done.");
 }
 
+// drop logs in inventory after chopping
 function dropLogs(){
     var inventory_x = 1755;
     var inventory_y = 760;
 
-    //drop logs in inventory
     robot.moveMouse(inventory_x, inventory_y);
     robot.mouseClick("right");
     robot.moveMouse(inventory_x - 25, inventory_y + 70);
@@ -46,9 +46,19 @@ function dropLogs(){
     sleep(1000);
 }
 
+// snapshot screen for coordinates of trees
+function snapshot(){
+    //taking a screenshot
+    var img = robot.screen.capture(0, 0, 1920, 1080);
+
+    var pixelColor = img.colorAt(890, 790);
+    console.log(pixelColor);
+}
+
 // pause execution for a given number of milliseconds
 function sleep(ms) {
     Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
 }
 
-main();
+snapshot();
+//main();
