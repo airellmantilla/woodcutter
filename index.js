@@ -15,8 +15,8 @@ function main(){
         
         //if tree isn't found, display an error and exit
         if (tree == false){
-            console.log("No tree found");
-            break;
+            rotateCamera();
+            continue;
         }
 
         //chop down found tree
@@ -41,6 +41,14 @@ function dropLogs(){
     robot.moveMouse(inventory_x - 25, inventory_y + 70);
     robot.mouseClick();
     sleep(1000);
+}
+
+// rotate camera if tree isn't found
+function rotateCamera(){
+    console.log("Tree not found. Rotating camera...");
+    robot.keyToggle("right", "down");
+    sleep(1000);
+    robot.keyToggle("right", "up");
 }
 
 
