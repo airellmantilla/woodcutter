@@ -1,5 +1,5 @@
 // woodcutting script by airellmantilla
-// Tested on 1920x1080 resolution
+// Tested with 1920x1080 resolution
 // Tested on Ikov.io client
 
 // import the robotjs library
@@ -12,19 +12,26 @@ function main(){
     // Loop forever until stopped manually
     while(true){
         var tree = findTree();
-        
-        // if tree isn't found, rotate camera
-        if (tree == false){
-            rotateCamera();
-            continue;
+        var rotations = 0;
+
+        while (rotations != 5){
+            // if tree isn't found, rotate camera
+            if (tree == false){
+                rotateCamera();
+                rotations++;
+                continue;
+            }
+
+            // chop down found tree
+            robot.moveMouse(tree.x, tree.y);
+            robot.mouseClick();
+            sleep(3000);
+
+            dropLogs();
         }
-
-        // chop down found tree
-        robot.moveMouse(tree.x, tree.y);
-        robot.mouseClick();
-        sleep(3000);
-
-        dropLogs();
+        // if we've rotated 5 times, stop the script
+        console.log("Couldn't find a tree after 5 rotations. Stopping script...");
+        break;
     }
 }
 
