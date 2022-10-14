@@ -13,13 +13,13 @@ function main(){
     while(true){
         var tree = findTree();
         
-        //if tree isn't found, rotate camera
+        // if tree isn't found, rotate camera
         if (tree == false){
             rotateCamera();
             continue;
         }
 
-        //chop down found tree
+        // chop down found tree
         robot.moveMouse(tree.x, tree.y);
         robot.mouseClick();
         sleep(3000);
@@ -94,11 +94,11 @@ function findTree(){
         }
     }
 
-    //couldn't find a tree in snapshot
+    //couldn't find a tree in capture
     return false;
 }
 
-//
+// check if a tree is valid
 function validTree(screen_x, screen_y){
     //move mouse to to coordinates
     robot.moveMouse(screen_x, screen_y);
