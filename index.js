@@ -16,16 +16,34 @@ function main(){
 
     // Loop forever until stopped manually
     while(true){
+        //chop first tree
         robot.moveMouse(firstTree_x, firstTree_y);
         robot.mouseClick();
         sleep(8000);
 
+        dropLogs();
+
+        //chop second tree
         robot.moveMouse(secondTree_x, secondTree_y);
         robot.mouseClick();
         sleep(8000);
+
+        dropLogs();
     }
 
     console.log("Done.");
+}
+
+function dropLogs(){
+    var inventory_x = 1755;
+    var inventory_y = 760;
+
+    //drop logs in inventory
+    robot.moveMouse(inventory_x, inventory_y);
+    robot.mouseClick("right");
+    robot.moveMouse(inventory_x - 25, inventory_y + 70);
+    robot.mouseClick();
+    sleep(1000);
 }
 
 // pause execution for a given number of milliseconds
