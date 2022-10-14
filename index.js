@@ -9,13 +9,20 @@ function main(){
     console.log("Starting...");
     sleep(4000);
     
-    var i = 0;
+    var firstTree_x = 1190;
+    var firstTree_y = 510;
+    var secondTree_x = 830;
+    var secondTree_y = 475;
 
-    while(i < 5){
-        robot.moveMouse(825, 550);
+    // Loop forever until stopped manually
+    while(true){
+        robot.moveMouse(firstTree_x, firstTree_y);
         robot.mouseClick();
         sleep(8000);
-        i++;
+
+        robot.moveMouse(secondTree_x, secondTree_y);
+        robot.mouseClick();
+        sleep(8000);
     }
 
     console.log("Done.");
