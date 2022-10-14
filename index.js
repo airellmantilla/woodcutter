@@ -9,7 +9,7 @@ function main(){
     console.log("Starting Script...");
     sleep(3000);
 
-    // Loop forever until stopped manually
+    // Loop forever until stopped manually with Ctrl+C
     while(true){
         var tree = findTree();
         var rotations = 0;
@@ -45,7 +45,7 @@ function dropLogs(){
     var pixelColor = robot.getPixelColor(inventory_x, inventory_y);
 
     var wait = 0;
-    var maxWait = 9;
+    var maxWait = 10;
     while(pixelColor != inventoryLogColour && wait < maxWait){
         //wait to see if chopping animation is done
         sleep(1000);
@@ -101,7 +101,7 @@ function findTree(){
         }
     }
 
-    //couldn't find a tree in capture
+    //couldn't find a tree in the capture
     return false;
 }
 
@@ -116,11 +116,9 @@ function validTree(screen_x, screen_y){
     var check_y = 65;
     pixelColor = robot.getPixelColor(check_x, check_y);
 
-    if (pixelColor == "00ffff"){
-        // tree is valid
+    if (pixelColor == "00ffff"){ // tree is valid
         return true;
-    } else {
-        // tree is invalid
+    } else { // tree is invalid
         return false;
     }
 }
