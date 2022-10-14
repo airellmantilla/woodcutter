@@ -14,7 +14,8 @@ function main(){
         var tree = findTree();
         var rotations = 0;
 
-        while (rotations != 5){
+        //figure out rotation check
+        //while (rotations < 5){
             // if tree isn't found, rotate camera
             if (tree == false){
                 rotateCamera();
@@ -28,10 +29,10 @@ function main(){
             sleep(3000);
 
             dropLogs();
-        }
+        //}
         // if we've rotated 5 times, stop the script
-        console.log("Couldn't find a tree after 5 rotations. Stopping script...");
-        break;
+        //console.log("Couldn't find a tree after 5 rotations. Stopping script...");
+        //break;
     }
 }
 
