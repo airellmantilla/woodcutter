@@ -14,7 +14,7 @@ function main(){
         var tree = findTree();
         var rotations = 0;
 
-        //figure out rotation check
+        //figure out rotation check bugged here
         //while (rotations < 5){
             // if tree isn't found, rotate camera
             if (tree == false){
