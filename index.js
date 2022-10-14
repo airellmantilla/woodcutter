@@ -6,14 +6,14 @@
 const robot = require('robotjs');
 
 function main(){
-    console.log("Starting...");
-    sleep(4000);
+    console.log("Starting Script...");
+    sleep(3000);
 
     // Loop forever until stopped manually
     while(true){
         var tree = findTree();
         
-        //if tree isn't found, display an error and exit
+        //if tree isn't found, rotate camera
         if (tree == false){
             rotateCamera();
             continue;
@@ -22,25 +22,41 @@ function main(){
         //chop down found tree
         robot.moveMouse(tree.x, tree.y);
         robot.mouseClick();
-        sleep(8000);
+        sleep(3000);
 
         dropLogs();
-
     }
-
-    console.log("Done.");
 }
 
 // drop logs in inventory after chopping
 function dropLogs(){
     var inventory_x = 1755;
     var inventory_y = 760;
+    var inventoryLogColour = "5b462a";
 
-    robot.moveMouse(inventory_x, inventory_y);
-    robot.mouseClick("right");
-    robot.moveMouse(inventory_x - 25, inventory_y + 70);
-    robot.mouseClick();
-    sleep(1000);
+    //capture pixel colour of log inventory
+    var pixelColor = robot.getPixelColor(inventory_x, inventory_y);
+
+    var wait = 0;
+    var maxWait = 9;
+    while(pixelColor != inventoryLogColour && wait < maxWait){
+        //wait to see if chopping animation is done
+        sleep(1000);
+
+        //check pixel colour again after waiting
+        pixelColor = robot.getPixelColor(inventory_x, inventory_y);
+        wait++;
+    }
+
+    //drop log if colour matches
+    if (pixelColor == inventoryLogColour){
+        robot.moveMouse(inventory_x, inventory_y);
+        robot.mouseClick("right");
+        sleep(300);
+        robot.moveMouse(inventory_x - 25, inventory_y + 70);
+        robot.mouseClick();
+        sleep(1000);
+    }
 }
 
 // rotate camera if tree isn't found
@@ -69,14 +85,37 @@ function findTree(){
             var screen_x = x + random_x;
             var screen_y = y + random_y;
 
-            console.log("Found tree at " + screen_x + ", " + screen_y + " with colour " + sampleColour);
-
-            return {x: screen_x, y: screen_y};
+            if (validTree(screen_x, screen_y)){
+                console.log("Found tree at " + screen_x + ", " + screen_y + " with colour " + sampleColour);
+                return {x: screen_x, y: screen_y};
+            } else {
+                console.log("Found tree at " + screen_x + ", " + screen_y + " with colour " + sampleColour + " but it is invalid");
+            }
         }
     }
 
     //couldn't find a tree in snapshot
     return false;
+}
+
+//
+function validTree(screen_x, screen_y){
+    //move mouse to to coordinates
+    robot.moveMouse(screen_x, screen_y);
+    sleep(300);
+
+    // check text at top left
+    var check_x = 85;
+    var check_y = 65;
+    pixelColor = robot.getPixelColor(check_x, check_y);
+
+    if (pixelColor == "00ffff"){
+        // tree is valid
+        return true;
+    } else {
+        // tree is invalid
+        return false;
+    }
 }
 
 // generate a random integer between min and max
@@ -91,13 +130,4 @@ function sleep(ms) {
     Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
 }
 
-// snapshot screen for colour of trees
-function snapshot(){
-    //taking a screenshot
-    var img = robot.screen.capture(0, 0, 1920, 1080);
-    var pixelColor = img.colorAt(890, 790);
-    console.log(pixelColor);
-}
-
-//snapshot();
 main();
